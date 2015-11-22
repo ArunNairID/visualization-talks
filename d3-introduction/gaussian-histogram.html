@@ -17,10 +17,16 @@ body {
   fill: #FFF;
 }
 
-.axis path, .axis line {
+.axis path, .axis line, .axis .tick{
   fill: none;
-  stroke: #0a0a0a;
+  stroke: #476E96;
   shape-rendering: crispEdges;
+}
+
+.line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 1.5px;
 }
 
   </style>
@@ -33,11 +39,17 @@ body {
 // Generate a standard Gaussian distribution.
 
 
-var myColorPalette = ["#A8611B", "#135868"];// matching orange and blue
-var interpolatedColors = d3.interpolateRgb(, b)
+var myColorPalette = d3.range(samples).map(x => 'red');
 var samples = 100000;
 var mu = 0, sigma= 1;
 var GaussianGenerator = d3.random.normal(mu, sigma)
+var GaussianCurve = d3.svg.line()
+    .x(function(d) {
+        return x(d.x);
+    })
+    .y(function(d) {
+        return y(d.y);
+    });
 var values = d3.range(samples).map(GaussianGenerator);
 
 // A formatter for counts.
@@ -67,11 +79,15 @@ var xAxis = d3.svg.axis()
     					.orient("bottom");
 
 // Create the svg container and place it inside the DOM
-var svg = d3.select("body").append("svg")
+var svg = d3.select("body")
+		.attr("bgcolor", "#19436E")
+		.append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   	.append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top +")");
+
+
 
 var translate = (function(){
     return function(d) { return "translate(" + x(d.x)+ "," + y(d.y) + ")";}})();
@@ -83,19 +99,27 @@ var bar = svg.selectAll(".bar")
     				 .attr("class", "bar")
     				 .attr("transform", translate);
 
+
+
 // Add the histogram rectangles
  bar.append("rect")
     .attr("x", 1)
 		.attr("width", 10)
 		.attr("height", function(d){return height - y(d.y)})
-		.attr("color", "red");
+    .style("fill", function(d){return "#476E96"});
 
-
-
+// Add the Gaussian curve (doesn't yet work)
+/**
+    svg.append("path")
+    .attr("class", "line")
+    .attr("d", GaussianCurve);
+*/
+// Add the xaxis
 svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
     .call(xAxis);
+
 
   </script>
 </body>
