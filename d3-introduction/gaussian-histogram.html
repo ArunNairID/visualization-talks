@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+  <style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.bar rect {
+  fill: #196496;
+  shape-rendering: crispEdges;
+}
+
+.bar text {
+  fill: #FFF;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #0a0a0a;
+  shape-rendering: crispEdges;
+}
+
+  </style>
+</head>
+
+<body>
+  <script>
+
+// This is inspired from this block: http://bl.ocks.org/mbostock/3048450
+// Generate a standard Gaussian distribution.
+
+
+var myColorPalette = d3.range(samples).map(x => 'red');
+var samples = 100000;
+var mu = 0, sigma= 1;
+var GaussianGenerator = d3.random.normal(mu, sigma)
+var values = d3.range(samples).map(GaussianGenerator);
+
+// A formatter for counts.
+var formatCount = d3.format(",.0f");
+
+// The layout dimensions
+var margin = {top: 20, right: 10, bottom: 30, left: 30},
+    width = 900 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// The x scale generator (domain is [-6*sigma, 6*sigma])
+var x = d3.scale.linear()
+    .domain([-6*sigma + mu, 6*sigma + mu])
+    .range([0, width]);
+
+// Generate a histogram using nbins uniformly-spaced bins.
+var nbins = 100
+var data = d3.layout.histogram().bins(x.ticks(nbins))(values);
+
+var y = d3.scale.linear()
+    .domain([0, d3.max(data, function(d) { return d.y; })])
+    .range([height, 0]);
+
+// Create the x axis and orient it to the bottom
+var xAxis = d3.svg.axis()
+    					.scale(x)
+    					.orient("bottom");
+
+// Create the svg container and place it inside the DOM
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  	.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top +")");
+
+var translate = (function(){
+    return function(d) { return "translate(" + x(d.x)+ "," + y(d.y) + ")";}})();
+
+var bar = svg.selectAll(".bar")
+    				 .data(data)
+  					 .enter()
+						 .append("g")
+    				 .attr("class", "bar")
+    				 .attr("transform", translate);
+
+// Add the histogram rectangles
+ bar.append("rect")
+    .attr("x", 1)
+		.attr("width", 10)
+		.attr("height", function(d){return height - y(d.y)})
+		.attr("color", "red");
+
+
+
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis);
+
+  </script>
+</body>
