@@ -33,7 +33,8 @@ body {
 // Generate a standard Gaussian distribution.
 
 
-var myColorPalette = d3.range(samples).map(x => 'red');
+var myColorPalette = ["#A8611B", "#135868"];// matching orange and blue
+var interpolatedColors = d3.interpolateRgb(, b)
 var samples = 100000;
 var mu = 0, sigma= 1;
 var GaussianGenerator = d3.random.normal(mu, sigma)
