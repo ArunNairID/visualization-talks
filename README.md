@@ -12,6 +12,8 @@ This repository contains some of my talks about visualization.
 <br></br>
 ![3](screenshots/python-visualization-tools-screenshot-3.png)
 
+* D3.js: An introduction
+
 
 ## License
 
