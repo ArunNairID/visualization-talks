@@ -6,13 +6,19 @@ This repository contains some of my talks about visualization.
 
 * Python visualization tools
 
-![1](screenshots/python-visualization-tools-screenshot-1.png)
+![1](screenshots/python-visualization-tools/python-visualization-tools-screenshot-1.png)
 <br></br>
-![2](screenshots/python-visualization-tools-screenshot-2.png)
+![2](screenshots/python-visualization-tools/python-visualization-tools-screenshot-2.png)
 <br></br>
-![3](screenshots/python-visualization-tools-screenshot-3.png)
+![3](screenshots/python-visualization-tools/python-visualization-tools-screenshot-3.png)
 
 * D3.js: An introduction
+
+![1](screenshots/d3-introduction/d3-introduction-screenshot-1.png)
+<br></br>
+![2](screenshots/d3-introduction/d3-introduction-screenshot-2.png)
+<br></br>
+![3](screenshots/d3-introduction/d3-introduction-screenshot-3.png)
 
 
 ## License
